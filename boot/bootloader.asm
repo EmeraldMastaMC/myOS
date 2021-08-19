@@ -8,7 +8,7 @@ PAGE_WRITE    equ (1 << 1)
 [org 0x7C00]
 mov byte [BOOT_DISK], dl
 
-mov al, 30        ; amount of sectors we wanna load
+mov al, 25        ; amount of sectors we wanna load
 call load_kernel
 call enter_32_bit_protected_mode
 jmp $

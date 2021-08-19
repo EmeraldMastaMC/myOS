@@ -9,26 +9,10 @@ void _start()
 {
 	//initGDT();
 	char amy[60];
-
-	void* tina = pmalloc(1);
-	utoa(amy, 60, (uint64_t)tina);
+	utoa(amy, 60, 1024);
 	puts(amy);
-
-	tina = pmalloc(512);
-	void* second = tina;
-	utoa(amy, 60, (uint64_t)tina);
-	puts(amy);
-
-	tina = pmalloc(1);
-	void* third = tina;
-	utoa(amy, 60, (uint64_t)tina);
-	puts(amy);
-	
-	pfree(second, 1);
-
-	tina = pmalloc(1);
-	utoa(amy, 60, (uint64_t)tina);
-	puts(amy);
+	asm volatile("cli");
+	asm volatile("hlt");
 }
 
 void puts(char* buffer)

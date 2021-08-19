@@ -4,7 +4,7 @@ LD = ld
 
 CCFLAGS     = -ffreestanding -m64 -O2 -c
 LDFLAGS     = -Ttext 0x8000 --oformat=binary 
-C_SOURCES   = $(wildcard kernel/*.c kernel/sys/*.c kernel/sys/GDT/*.c kernel/memory/*.c)
+C_SOURCES   = $(wildcard kernel/*.c kernel/sys/*.c kernel/sys/GDT/*.c kernel/memory/management/physical/*.c)
 ASM_SOURCES = $(wildcard kernel/*.asm kernel/sys/*.asm kernel/sys/GDT/*.asm)
 
 BINARY      = boot/bootloader.bin kernel/kernel.bin

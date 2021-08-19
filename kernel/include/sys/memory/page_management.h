@@ -2,6 +2,7 @@
 #define __MY_OS_PAGE_MANAGEMENT__
 
 #include "../../stdint.h"
+#include "../../stdbool.h"
 
 struct free_list_node
 {
@@ -23,6 +24,5 @@ typedef struct free_list_node free_list_node;
 // pfree error codes
 #define MEMORY_ALREADY_FREED               0x01
 #define MEMORY_FREE_REQUEST_SIZE_TOO_LARGE 0x02
-#define 
 
 #endif

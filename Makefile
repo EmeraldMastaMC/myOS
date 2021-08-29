@@ -17,6 +17,7 @@ BOOTLOADER  = boot/bootloader.asm
 OUTFILE     = dist/myOS.img
 
 main: $(BINARY)
+	@mkdir -p dist
 	@\cat $^ > $(OUTFILE) 
 	@rm $^
 
@@ -39,6 +40,9 @@ run:
 
 runusb:
 	@qemu-system-x86_64 -soundhw pcspk -drive file=$(OUTFILE),format=raw,media=disk -device nec-usb-xhci -device usb-kbd
+
+clean:
+	@rm -r dist
 	
 tbtosp:
 	@find ./kernel -type f -not -path '*/\.*' -exec sed -i 's/\t/	/g' {} +

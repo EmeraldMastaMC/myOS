@@ -5,28 +5,28 @@
 
 typedef struct
 {
-	int16_t limit_low   : 16;
-	int16_t base_low    : 16;
-	int8_t  base_mid   :  8;
-	int8_t  Ac         :  1;
-	int8_t  RW         :  1;
-	int8_t  DC         :  1;
-	int8_t  Ex         :  1;
-	int8_t  S          :  1;
-	int8_t  Privl      :  2;
-	int8_t  Pr         :  1;
-	int8_t  limit_high :  4;
-	int8_t  null       :  1;
-	int8_t  L          :  1;
-	int8_t  Sz         :  1;
-	int8_t  Gr         :  1;
-	int8_t  base_high  :  8;
+  int16_t limit_low   : 16;
+  int16_t base_low    : 16;
+  int8_t  base_mid   :  8;
+  int8_t  Ac         :  1;
+  int8_t  RW         :  1;
+  int8_t  DC         :  1;
+  int8_t  Ex         :  1;
+  int8_t  S          :  1;
+  int8_t  Privl      :  2;
+  int8_t  Pr         :  1;
+  int8_t  limit_high :  4;
+  int8_t  null       :  1;
+  int8_t  L          :  1;
+  int8_t  Sz         :  1;
+  int8_t  Gr         :  1;
+  int8_t  base_high  :  8;
 } __attribute__((packed)) GDT_entry_t;
 
 typedef struct
 {
-	int16_t size;
-	int64_t offset;
+  int16_t size;
+  int64_t offset;
 } __attribute__((packed)) GDT_descriptor_t;
 
 extern void load_GDT(uint64_t, uint16_t, uint16_t);

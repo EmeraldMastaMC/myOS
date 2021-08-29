@@ -6,16 +6,16 @@ PAGE_PRESENT  equ (1 << 0)
 PAGE_WRITE    equ (1 << 1)
 [bits 16]
 [org 0x7C00]
-	mov byte [BOOT_DISK], dl
+  mov byte [BOOT_DISK], dl
 
 
 
-	mov al, 25        ; amount of sectors we wanna load
-	call load_kernel
-	mov ax, 0x13
-	int 0x10
-	call enter_32_bit_protected_mode
-	jmp $
+  mov al, 25        ; amount of sectors we wanna load
+  call load_kernel
+  mov ax, 0x13
+  int 0x10
+  call enter_32_bit_protected_mode
+  jmp $
 
 enter_32_bit_protected_mode:
   call enableA20                      ; We need to do this so we can access more memory, im not
@@ -58,23 +58,23 @@ gdt_descriptor:
   dq gdt_start  ; Address
 
 load_kernel:
-	mov bx, 0x00
-	mov es, bx
-	mov bx, KERNEL_OFFSET ; Where we want to load our kernel
+  mov bx, 0x00
+  mov es, bx
+  mov bx, KERNEL_OFFSET ; Where we want to load our kernel
 
-	mov ah, 0x02 ; BIOS read sector function
-	mov dl, [BOOT_DISK]
-	mov ch, 0x00 ; Cylinder 0
-	mov dh, 0x00 ; Head 0
-	mov cl, 0x02 ; Second Sector (After boot sector)
-	int 0x13
-	jnc .return
-	mov bx, 0xb000
-	mov es, bx
-	mov word [es:0x8000], 0x1f35
-	jmp $
+  mov ah, 0x02 ; BIOS read sector function
+  mov dl, [BOOT_DISK]
+  mov ch, 0x00 ; Cylinder 0
+  mov dh, 0x00 ; Head 0
+  mov cl, 0x02 ; Second Sector (After boot sector)
+  int 0x13
+  jnc .return
+  mov bx, 0xb000
+  mov es, bx
+  mov word [es:0x8000], 0x1f35
+  jmp $
 .return:
-	ret
+  ret
 
 
 BOOT_DISK: db 0
@@ -88,34 +88,34 @@ start_of_32_bit_code:
   mov fs, ax
   mov gs, ax
   mov ss, ax
-	call enable_SSE
+  call enable_SSE
   call enter_64_bit_long_mode
   jmp CODE_SEG:start_of_64_bit_code
 
 enable_SSE:
-	mov eax, cr0
-	and ax, 0xFFFB
-	or ax, 0x2
-	mov cr0, eax
-	mov eax, cr4
-	or ax, 3 << 9
-	mov cr4, eax
-	ret
+  mov eax, cr0
+  and ax, 0xFFFB
+  or ax, 0x2
+  mov cr0, eax
+  mov eax, cr4
+  or ax, 3 << 9
+  mov cr4, eax
+  ret
 
 enable_AVX:
-	push eax
-	push ecx
-	push edx
+  push eax
+  push ecx
+  push edx
 
-	xor ecx, ecx
-	xgetbv
-	or eax, 7
-	xsetbv
-	
-	pop edx
-	pop ecx
-	pop eax
-	ret
+  xor ecx, ecx
+  xgetbv
+  or eax, 7
+  xsetbv
+  
+  pop edx
+  pop ecx
+  pop eax
+  ret
 
 enter_64_bit_long_mode:
   mov edi, 0x1000

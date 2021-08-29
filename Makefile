@@ -40,4 +40,9 @@ run:
 runusb:
 	@qemu-system-x86_64 -soundhw pcspk -drive file=$(OUTFILE),format=raw,media=disk -device nec-usb-xhci -device usb-kbd
 	
+tbtosp:
+	@find ./kernel -type f -not -path '*/\.*' -exec sed -i 's/\t/	/g' {} +
+	@find ./boot -type f -not -path '*/\.*' -exec sed -i 's/\t/	/g' {} +
+
+
 

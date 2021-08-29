@@ -45,8 +45,8 @@ clean:
 	@rm -r dist
 	
 tbtosp:
-	@find ./kernel -type f -not -path '*/\.*' -exec sed -i 's/\t/	/g' {} +
-	@find ./boot -type f -not -path '*/\.*' -exec sed -i 's/\t/	/g' {} +
+	@find ./kernel -type f -not -path '*/\.*' -exec sed -i 's/\t/  /g' {} +
+	@find ./boot -type f -not -path '*/\.*' -exec sed -i 's/\t/  /g' {} +
 
 
 

@@ -1,4 +1,5 @@
 #include "../../include/stdint.h"
+#include "../../include/stdlib.h"
 #include "../../include/sys/IDT.h"
 #include "../../include/sys/io.h"
 #include "../../include/sys/sys.h"
@@ -30,9 +31,10 @@ void init_IDT()
 {
 	IDT_set_entry(0x20, (uint64_t)&IRQ0, CODE_SEG, IDT_GATE_PRESENT | IDT_GATE_DESCRIPTOR_PRIVILEGE_LEVEL_0 | IDT_GATE_TYPE_32_BIT_INTERRUPT_GATE);
 	IDT_set_entry(0x21, (uint64_t)&IRQ1, CODE_SEG, IDT_GATE_PRESENT | IDT_GATE_DESCRIPTOR_PRIVILEGE_LEVEL_0 | IDT_GATE_TYPE_32_BIT_INTERRUPT_GATE);
+	IDT_set_entry(0x2C, (uint64_t)&IRQ1, CODE_SEG, IDT_GATE_PRESENT | IDT_GATE_DESCRIPTOR_PRIVILEGE_LEVEL_0 | IDT_GATE_TYPE_32_BIT_INTERRUPT_GATE);
 
 	IDT_descriptor.size   = sizeof(IDT) - 1;
 	IDT_descriptor.offset = (uint64_t)IDT;
 
-	load_IDT();
+	load_IDT((uint64_t)&IDT_descriptor);
 }

@@ -31,7 +31,7 @@ typedef struct
 
 extern void load_GDT(uint64_t, uint16_t, uint16_t);
 void GDT_set_entry(uint16_t index, uint32_t base, uint32_t limit, uint8_t accessByte, uint8_t flags);
-void initGDT();
+void init_GDT();
 
 
 // Access Byte

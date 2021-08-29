@@ -4,8 +4,8 @@ LD = ld
 
 CCFLAGS     = -ffreestanding -m64 -O2 -c
 LDFLAGS     = -Ttext 0x8000 --oformat=binary 
-C_SOURCES   = $(wildcard kernel/*.c kernel/sys/*.c kernel/sys/GDT/*.c kernel/memory/management/physical/*.c)
-ASM_SOURCES = $(wildcard kernel/*.asm kernel/sys/*.asm kernel/sys/GDT/*.asm)
+C_SOURCES   = $(wildcard kernel/*.c kernel/sys/*.c kernel/sys/GDT/*.c kernel/sys/IDT/*.c kernel/memory/management/physical/*.c kernel/sys/PIC/*.c kernel/drivers/keyboard/PS2/*.c)
+ASM_SOURCES = $(wildcard kernel/*.asm kernel/sys/*.asm kernel/sys/GDT/*.asm kernel/sys/IDT/*.asm)
 
 BINARY      = boot/bootloader.bin kernel/kernel.bin
 
@@ -36,4 +36,8 @@ kernel/kernel.bin: $(OBJ)
 
 run:
 	@qemu-system-x86_64 -soundhw pcspk -drive file=$(OUTFILE),format=raw,media=disk
+
+runusb:
+	@qemu-system-x86_64 -soundhw pcspk -drive file=$(OUTFILE),format=raw,media=disk -device nec-usb-xhci -device usb-kbd
+	
 

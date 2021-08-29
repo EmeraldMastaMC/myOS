@@ -34,7 +34,7 @@ void GDTSetEntry(uint16_t index, uint32_t base, uint32_t limit, uint8_t accessBy
 	GDT[index].Gr      = (flags & 0b00001000) >> 3;
 }
 
-void initGDT()
+void init_GDT()
 {
 	GDTSetEntry(0, 0x00000000, 0x00000, 0b00000000, 0b00000000);
 

@@ -6,12 +6,16 @@ PAGE_PRESENT  equ (1 << 0)
 PAGE_WRITE    equ (1 << 1)
 [bits 16]
 [org 0x7C00]
-mov byte [BOOT_DISK], dl
+	mov byte [BOOT_DISK], dl
 
-mov al, 25        ; amount of sectors we wanna load
-call load_kernel
-call enter_32_bit_protected_mode
-jmp $
+
+
+	mov al, 25        ; amount of sectors we wanna load
+	call load_kernel
+	mov ax, 0x13
+	int 0x10
+	call enter_32_bit_protected_mode
+	jmp $
 
 enter_32_bit_protected_mode:
   call enableA20                      ; We need to do this so we can access more memory, im not

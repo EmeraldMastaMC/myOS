@@ -4,14 +4,14 @@
 #include "../stdint.h"
 typedef struct
 {
-	uint16_t offset_lo : 16;
+	uint16_t offset_lo  : 16;
 	uint16_t selector   : 16;
 	uint8_t  ist        :  8;
 	uint8_t  gate_type  :  4;
 	uint8_t  Z          :  1;
 	uint8_t  DPL        :  2;
 	uint8_t  P          :  1;
-	uint16_t offset_mi : 16;
+	uint16_t offset_mi  : 16;
 	uint32_t offset_hi  : 32;
 	uint32_t zero       : 32;
 } __attribute__((packed)) IDT_entry_t;
@@ -39,6 +39,6 @@ void IDT_set_entry(uint8_t index, uint64_t offset, uint16_t selector, uint8_t ty
 
 void init_IDT();
 
-void load_IDT();
+void load_IDT(uint64_t);
 
 #endif

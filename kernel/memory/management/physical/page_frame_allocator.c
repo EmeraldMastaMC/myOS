@@ -38,12 +38,33 @@ uint8_t pfree(void* allocated_memory, size_t size)
 {
   if(size > MAX_SPACE) return MEMORY_FREE_REQUEST_SIZE_TOO_LARGE;
   if(pfree_is_already_freed(allocated_memory)) return DOUBLE_FREE;
-
   for(unsigned int i = 0; i < used_nodes; i++)
   {
     // Move along nodes until we reach an adjacent free block
     if((size_t)allocated_memory > (size_t)free_list[i].start)
       continue;
+
+    if(i == 0)
+    {
+      if ((allocated_memory >= PROGRAM_BASE_ADDRESS) && (size < ((size_t)free_list[i].start - (size_t)allocated_memory)))
+      {
+        // Shift nodes
+        for(int j = 0; j >= (int)i; j--)
+        {
+          free_list_node tmp = free_list[j];
+          free_list[j + 1] = tmp;
+        }
+        free_list[i].start = allocated_memory;
+        free_list[i].size  = size;
+        return EXIT_SUCCESS;
+      }
+      else if ((allocated_memory >= PROGRAM_BASE_ADDRESS) && (size == ((size_t)free_list[i].start - (size_t)allocated_memory)))
+      {
+        free_list[i].size += size;
+        free_list[i].start = allocated_memory;
+        return EXIT_SUCCESS;
+      }
+    }
 
     // If we have a previous node
     if(i > 0)
@@ -79,7 +100,7 @@ uint8_t pfree(void* allocated_memory, size_t size)
         for(unsigned int j = used_nodes - 1; j >= i; j--)
         {
           free_list_node tmp = free_list[j];
-          free_list[j + i] = tmp;
+          free_list[j + 1] = tmp;
         }
 
         free_list[i].start = allocated_memory;
@@ -88,10 +109,6 @@ uint8_t pfree(void* allocated_memory, size_t size)
         used_nodes++;
         return EXIT_SUCCESS;
       }
-      break;
-    }
-    else
-    {
     }
   }
   return EXIT_FAILURE;

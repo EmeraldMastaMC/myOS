@@ -11,16 +11,16 @@ PAGE_WRITE         equ (1 << 1)
 
 %macro STOP 0
 
-	push es
-	push bx
-	mov bx, 0xb800
-	mov es, bx
-	xor bx, bx
-	mov byte [es:bx], 'X'
-	cli
-	hlt
-	pop bx
-	pop es
+  push es
+  push bx
+  mov bx, 0xb800
+  mov es, bx
+  xor bx, bx
+  mov byte [es:bx], 'X'
+  cli
+  hlt
+  pop bx
+  pop es
 
 %endmacro
 
@@ -29,21 +29,21 @@ PAGE_WRITE         equ (1 << 1)
 
   mov byte [BOOT_DISK], dl
 
-	mov ax, KERNEL_SEGMENT
-	mov es, ax
-  mov al, 3
+  mov ax, KERNEL_SEGMENT
+  mov es, ax
+  mov al, 4
   mov bx, BOOT_SECT_2
   mov cl, 0x02
   call disk_load
 
-	
-	mov ax, 1920
-	mov bx, 1080
+  
+  mov ax, 1920
+  mov bx, 1080
   mov cl, 32
-	call BOOT_SECT_2
+  ;call BOOT_SECT_2
 
-	mov ax, KERNEL_SEGMENT
-	mov es, ax
+  mov ax, KERNEL_SEGMENT
+  mov es, ax
   mov al, 25            ; amount of sectors we wanna load
   mov bx, KERNEL_OFFSET ; Where we want to load it.
   mov cl, 0x05          ; Starting at what sector in the disk
@@ -126,7 +126,7 @@ start_of_32_bit_code:
   mov gs, ax
   mov ss, ax
   call enable_SSE
-	;call enable_AVX
+  ;call enable_AVX
   call enter_64_bit_long_mode
   jmp CODE_SEG:start_of_64_bit_code
 
@@ -212,7 +212,7 @@ enter_64_bit_long_mode:
 
 [bits 64]
 start_of_64_bit_code:
-	;mov word [0xb8000], 0x1F00 | 'X'
+  ;mov word [0xb8000], 0x1F00 | 'X'
   jmp KERNEL_ADDRESS
 
 times 510-($-$$) db 0x00          ; Padding
